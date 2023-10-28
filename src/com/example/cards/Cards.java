@@ -12,7 +12,7 @@ public class Cards {
     private LocalDate dateOfRegistration;
     private LocalDate dateOfcancelation;
     public Person owner;
-    TypeOfCards typeOfCards;
+    private TypeOfCards typeOfCards;
     private LocalDateTime timeToBe;
 
     public LocalDateTime getTimeToBe() {
@@ -24,10 +24,17 @@ public class Cards {
     }
 
     public Cards(String dateOfcancelation, Person owner, TypeOfCards typeOfCards) {
-        this.dateOfRegistration = LocalDate.now();
-        this.dateOfcancelation = Date.parseDate(dateOfcancelation);
-        this.owner = owner;
-        this.typeOfCards = typeOfCards;
+        if (owner != null && typeOfCards != null && Date.parseDate(dateOfcancelation).isAfter(LocalDate.now()) && typeOfCards != TypeOfCards.ONCE) {
+            this.dateOfRegistration = LocalDate.now();
+            this.dateOfcancelation = Date.parseDate(dateOfcancelation);
+            this.owner = owner;
+            this.typeOfCards = typeOfCards;
+        } else if (TypeOfCards.ONCE.equals(typeOfCards)) {
+            this.dateOfRegistration = LocalDate.now();
+            this.dateOfcancelation = LocalDate.now();
+            this.owner = owner;
+            this.typeOfCards = typeOfCards;
+        }
     }
 
     public LocalDate getDateOfcancelation() {

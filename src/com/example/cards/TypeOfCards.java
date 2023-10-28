@@ -5,22 +5,18 @@ import com.example.date.Date;
 import java.time.LocalTime;
 
 public enum TypeOfCards {
-    DAYLY("16:00", false, true, true),
-    FULL("22:00", true, true, true),
-    ONCE("22:00", true, true, false);
-    LocalTime starting = Date.parseTime("08:00");
+    DAYLY("16:00", Zone.GYM, Zone.GROUPEXERCISES),
+    FULL("22:00", Zone.GYM, Zone.GROUPEXERCISES, Zone.WATERFALL),
+    ONCE("22:00", Zone.GYM, Zone.WATERFALL);
+    private LocalTime starting = Date.parseTime("08:00");
     ;
-    LocalTime ending;
-    boolean isWaterfall=false;
-    boolean isGym=false;
-    boolean isGroupExercises=false;
+    private LocalTime ending;
+    Zone[] zone;
 
-    TypeOfCards(String ending, boolean isWaterfall, boolean isGym, boolean isGroupExercises) {
-        if (Date.parseTime((ending))!=null)
-        this.ending = Date.parseTime((ending));
-        this.isWaterfall = isWaterfall;
-        this.isGym = isGym;
-        this.isGroupExercises = isGroupExercises;
+
+    TypeOfCards(String ending, Zone... zone) {
+        this.ending = Date.parseTime(ending);
+        this.zone = zone;
     }
 
     public LocalTime getEnding() {
@@ -31,27 +27,21 @@ public enum TypeOfCards {
         this.ending = ending;
     }
 
-    public boolean isWaterfall() {
-        return isWaterfall;
+    public Zone[] getZone() {
+        return zone;
     }
 
-    public void setWaterfall(boolean waterfall) {
-        isWaterfall = waterfall;
+    public boolean isZone(String zoneInFitness, Zone[] zone) {
+        for (int i = 0; i < zone.length; i++) {
+            if (zone[i].toString().equals(zoneInFitness.toUpperCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean isGym() {
-        return isGym;
-    }
+}
 
-    public void setGym(boolean gym) {
-        isGym = gym;
-    }
-
-    public boolean isGroupExercises() {
-        return isGroupExercises;
-    }
-
-    public void setGroupExercises(boolean groupExercises) {
-        isGroupExercises = groupExercises;
-    }
+enum Zone {
+    GYM, WATERFALL, GROUPEXERCISES
 }
