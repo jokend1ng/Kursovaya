@@ -8,30 +8,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fitnes {
-    private static final List<Cards> gym = new ArrayList<>(20);
-    private static final List<Cards> waterFall = new ArrayList<>(20);
-    private static final List<Cards> groupExercises = new ArrayList<>(20);
+    private static  Fitnes INSTANCE;
+    private  final List<Cards> gym = new ArrayList<>(20);
+    private  final List<Cards> waterFall = new ArrayList<>(20);
+    private  final List<Cards> groupExercises = new ArrayList<>(20);
 
-    public static void fill(List<Cards> array, Cards values) {
+    public  void fill(List<Cards> array, Cards values) {
         for (int i = 0; i < 20; i++) {
             values.setTimeToBe(LocalDateTime.now());
             array.add(values);
         }
     }
 
-    public static List<Cards> getGym() {
+    public Fitnes() {
+    }
+
+    public static Fitnes getFitnes() {
+        if (INSTANCE ==null){
+            INSTANCE = new Fitnes();
+        }
+        return INSTANCE;
+    }
+
+    public  List<Cards> getGym() {
         return gym;
     }
 
-    public static List<Cards> getWaterFall() {
+    public  List<Cards> getWaterFall() {
         return waterFall;
     }
 
-    public static List<Cards> getGroupExercises() {
+    public  List<Cards> getGroupExercises() {
         return groupExercises;
     }
 
-    public static void addToTask(List<Cards> list, Cards card) {
+    public  void addToTask(List<Cards> list, Cards card) {
         if (Date.isRequiredCard(card.getDateOfcancelation()) && isNotContains(card) && isHaveEmptyPlace(list)) {
             if (list == gym && card.getTypeOfCards().isZone("gym", card.getTypeOfCards().getZone())) {
                 putCardInZone(list, card);
@@ -51,16 +62,15 @@ public class Fitnes {
         }
     }
 
-    private static boolean isHaveEmptyPlace(List<Cards> array) {
+    private boolean isHaveEmptyPlace(List<Cards> array) {
         return array.size() < 20;
     }
 
-    private static boolean isNotContains(Cards card) {
-        if (!waterFall.contains(card) && !gym.contains(card) && !groupExercises.contains(card)) return true;
-        else return false;
-    }
+    private  boolean isNotContains(Cards card) {
+        return !waterFall.contains(card) && !gym.contains(card) && !groupExercises.contains(card);
+     }
 
-    public static void getAllTracks() {
+    public  void getAllTracks() {
         List<Cards> allTracks = new ArrayList<>();
         for (int i = 0; i < gym.size(); i++) {
             allTracks.add(gym.get(i));
@@ -80,7 +90,7 @@ public class Fitnes {
     }
 
 
-    private static void putCardInZone(List<Cards> list, Cards card) {
+    private void putCardInZone(List<Cards> list, Cards card) {
         card.setTimeToBe(LocalDateTime.now());
         list.add(card);
         System.out.println(card.owner.getName() + " " + card.owner.getSurname() + "  groupExercises");

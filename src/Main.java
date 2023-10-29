@@ -12,9 +12,10 @@ public class Main {
         Person person =new Person("Alex","Drozdov","2000-01-01");
         Cards cards = new Cards("2024-01-01",person, TypeOfCards.ONCE);
         Cards cards1 = new Cards("2024-01-01",person, TypeOfCards.ONCE);
-        Fitnes.fill(Fitnes.getGroupExercises(),cards);
-        Fitnes.addToTask(Fitnes.getGym(),cards1);
-        Fitnes.addToTask(Fitnes.getWaterFall(),cards);
-        Fitnes.getAllTracks();
+        Fitnes fit = new Fitnes();
+        fit.fill(fit.getGroupExercises(),cards);
+        fit.addToTask(fit.getGym(),cards1);
+        fit.addToTask(fit.getWaterFall(),cards);
+        fit.getAllTracks();
     }
 }
